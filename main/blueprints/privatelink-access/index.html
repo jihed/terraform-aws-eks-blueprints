@@ -10,20 +10,20 @@
         <meta name="author" content="AWS">
       
       
-        <link rel="canonical" href="https://aws-ia.github.io/terraform-aws-eks-blueprints/main/blueprints/tls-with-aws-pca-issuer/">
+        <link rel="canonical" href="https://aws-ia.github.io/terraform-aws-eks-blueprints/main/blueprints/privatelink-access/">
       
       
-        <link rel="prev" href="../stateful/">
+        <link rel="prev" href="../private-public-ingress/">
       
       
-        <link rel="next" href="../vpc-cni-custom-networking/">
+        <link rel="next" href="../stateful/">
       
       <link rel="icon" href="../../images/colored-logo.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.19">
     
     
       
-        <title>TLS w/ AWS PCA Issuer - Amazon EKS Blueprints for Terraform</title>
+        <title>PrivateLink Access - Amazon EKS Blueprints for Terraform</title>
       
     
     
@@ -112,7 +112,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tls-with-aws-pca-issuer" class="md-skip">
+        <a href="#private-eks-cluster-access-via-aws-privatelink" class="md-skip">
           Skip to content
         </a>
       
@@ -150,7 +150,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              TLS w/ AWS PCA Issuer
+              PrivateLink Access
             
           </span>
         </div>
@@ -528,11 +528,93 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../privatelink-access/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          PrivateLink Access
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         PrivateLink Access
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy" class="md-nav__link">
+    Deploy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validate" class="md-nav__link">
+    Validate
+  </a>
+  
+    <nav class="md-nav" aria-label="Validate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-connectivity" class="md-nav__link">
+    Network Connectivity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cluster-access" class="md-nav__link">
+    Cluster Access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#destroy" class="md-nav__link">
+    Destroy
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -556,80 +638,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          TLS w/ AWS PCA Issuer
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../tls-with-aws-pca-issuer/" class="md-nav__link">
         TLS w/ AWS PCA Issuer
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-deploy" class="md-nav__link">
-    How to Deploy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    Prerequisites:
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deploy" class="md-nav__link">
-    Deploy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validate" class="md-nav__link">
-    Validate
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cleanup" class="md-nav__link">
-    Cleanup
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -851,13 +864,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-deploy" class="md-nav__link">
-    How to Deploy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#prerequisites" class="md-nav__link">
     Prerequisites:
   </a>
@@ -876,11 +882,31 @@
     Validate
   </a>
   
+    <nav class="md-nav" aria-label="Validate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-connectivity" class="md-nav__link">
+    Network Connectivity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cluster-access" class="md-nav__link">
+    Cluster Access
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#cleanup" class="md-nav__link">
-    Cleanup
+  <a href="#destroy" class="md-nav__link">
+    Destroy
   </a>
   
 </li>
@@ -903,20 +929,11 @@
   
 
 
-<!-- BEGIN INCLUDE ../../examples/tls-with-aws-pca-issuer/README.md -->
-<h1 id="tls-with-aws-pca-issuer">TLS with AWS PCA Issuer<a class="headerlink" href="#tls-with-aws-pca-issuer" title="Permanent link">&para;</a></h1>
-<p>This example deploys the following</p>
-<ul>
-<li>Basic EKS Cluster with VPC</li>
-<li>Creates a new sample VPC, 3 Private Subnets and 3 Public Subnets</li>
-<li>Creates Internet gateway for Public Subnets and NAT Gateway for Private Subnets</li>
-<li>Enables cert-manager module</li>
-<li>Enables cert-manager CSI driver module</li>
-<li>Enables aws-privateca-issuer module</li>
-<li>Creates AWS Certificate Manager Private Certificate Authority, enables and activates it</li>
-<li>Creates the CRDs to fetch <code>tls.crt</code>, <code>tls.key</code> and <code>ca.crt</code> , which will be available as Kubernetes Secret. Now you may mount the secret in the application for end to end TLS.</li>
-</ul>
-<h2 id="how-to-deploy">How to Deploy<a class="headerlink" href="#how-to-deploy" title="Permanent link">&para;</a></h2>
+<!-- BEGIN INCLUDE ../../examples/privatelink-access/README.md -->
+<h1 id="private-eks-cluster-access-via-aws-privatelink">Private EKS cluster access via AWS PrivateLink<a class="headerlink" href="#private-eks-cluster-access-via-aws-privatelink" title="Permanent link">&para;</a></h1>
+<p>This example demonstrates how to access a private EKS cluster using AWS PrivateLink.</p>
+<p>Refer to the <a href="https://docs.aws.amazon.com/vpc/latest/privatelink/concepts.html">documentation</a>
+for further details on  <code>AWS PrivateLink</code>.</p>
 <h2 id="prerequisites">Prerequisites:<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>Ensure that you have the following tools installed locally:</p>
 <ol>
@@ -925,52 +942,105 @@
 <li><a href="https://learn.hashicorp.com/tutorials/terraform/install-cli">terraform</a></li>
 </ol>
 <h2 id="deploy">Deploy<a class="headerlink" href="#deploy" title="Permanent link">&para;</a></h2>
-<p>To provision this example:</p>
+<p>To provision this example, first deploy the Lambda function that responds to
+<code>CreateNetworkInterface</code> API calls. This needs to exist before the cluster is
+created so that it can respond to the ENIs created by the EKS control plane:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>terraform<span class="w"> </span>init
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-target<span class="w"> </span>module.vpc
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-target<span class="w"> </span>module.eks
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>terraform<span class="w"> </span>apply
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-target<span class="o">=</span>module.eventbridge<span class="w"> </span>-target<span class="o">=</span>module.nlb
+</span></code></pre></div>
+<p>Enter <code>yes</code> at command prompt to apply</p>
+<p>Next, deploy the remaining resources:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>terraform<span class="w"> </span>apply
 </span></code></pre></div>
 <p>Enter <code>yes</code> at command prompt to apply</p>
 <h2 id="validate">Validate<a class="headerlink" href="#validate" title="Permanent link">&para;</a></h2>
-<p>The following command will update the <code>kubeconfig</code> on your local machine and allow you to interact with your EKS Cluster using <code>kubectl</code> to validate the CoreDNS deployment for Fargate.</p>
+<h3 id="network-connectivity">Network Connectivity<a class="headerlink" href="#network-connectivity" title="Permanent link">&para;</a></h3>
+<p>An output <code>ssm_test</code> has been provided to aid in quickly testing the
+connectivity from the client EC2 instance to the private EKS cluster via AWS
+PrivateLink. Copy the output value and paste it into your terminal to execute
+and check the connectivity. If configured correctly, the value returned should
+be <code>ok</code>.</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">COMMAND</span><span class="o">=</span><span class="s2">&quot;curl -ks https://9A85B21811733524E3ABCDFEA8714642.gr7.us-west-2.eks.amazonaws.com/readyz&quot;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nv">COMMAND_ID</span><span class="o">=</span><span class="k">$(</span>aws<span class="w"> </span>ssm<span class="w"> </span>send-command<span class="w"> </span>--region<span class="w"> </span>us-west-2<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>--document-name<span class="w"> </span><span class="s2">&quot;AWS-RunShellScript&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>--parameters<span class="w"> </span><span class="s2">&quot;commands=[</span><span class="nv">$COMMAND</span><span class="s2">]&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>--targets<span class="w"> </span><span class="s2">&quot;Key=instanceids,Values=i-0a45eff73ba408575&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>--query<span class="w"> </span><span class="s1">&#39;Command.CommandId&#39;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>--output<span class="w"> </span>text<span class="k">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>aws<span class="w"> </span>ssm<span class="w"> </span>get-command-invocation<span class="w"> </span>--region<span class="w"> </span>us-west-2<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>--command-id<span class="w"> </span><span class="nv">$COMMAND_ID</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>--instance-id<span class="w"> </span>i-0a45eff73ba408575<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>--query<span class="w"> </span><span class="s1">&#39;StandardOutputContent&#39;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>--output<span class="w"> </span>text
+</span></code></pre></div>
+<h3 id="cluster-access">Cluster Access<a class="headerlink" href="#cluster-access" title="Permanent link">&para;</a></h3>
+<p>To test access to the cluster, you will need to execute Kubernetes API calls
+from within the private network to access the cluster. An EC2 instance has been
+deployed into a "client" VPC to simulate this scenario. However, since the EKS
+cluster was created with your local IAM identity, the <code>aws-auth</code> ConfigMap will
+only have your local identity that is permitted to access the cluster. Since
+cluster's API endpoint is private, we cannot use Terraform to reach it to
+add additional entries to the ConfigMap; we can only access the cluster from
+within the private network of the cluster's VPC or from the client VPC using AWS
+PrivateLink access.</p>
+<blockquote>
+<p>:warning: The "client" EC2 instance provided and copying of AWS credentials to
+ that instance are merely for demonstration purposes only. Please consider
+ alternate methods of network access such as AWS Client VPN to provide more
+ secure access.</p>
+</blockquote>
+<p>Perform the following steps to access the cluster with <code>kubectl</code> from the
+provided "client" EC2 instance.</p>
 <ol>
-<li>Check the Terraform provided Output, to update your <code>kubeconfig</code></li>
+<li>Execute the command below on your local machine to get temporary credentials
+that will be used on the "client" EC2 instance:</li>
 </ol>
-<div class="language-hcl highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="err">Apply</span><span class="w"> </span><span class="err">complete</span><span class="p">!</span><span class="w"> </span><span class="err">Resources</span><span class="p">:</span><span class="w"> </span><span class="m">63</span><span class="w"> </span><span class="err">added</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="err">changed</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="err">destroyed</span><span class="p">.</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="err">Outputs</span><span class="p">:</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="na">configure_kubectl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;aws eks --region us-west-2 update-kubeconfig --name fully-private-cluster&quot;</span>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>aws<span class="w"> </span>sts<span class="w"> </span>get-session-token<span class="w"> </span>--duration-seconds<span class="w"> </span><span class="m">3600</span><span class="w"> </span>--output<span class="w"> </span>yaml
 </span></code></pre></div>
 <ol>
-<li>Run <code>update-kubeconfig</code> command, using the Terraform provided Output, replace with your <code>$AWS_REGION</code> and your <code>$CLUSTER_NAME</code> variables.</li>
+<li>Start a new SSM session on the "client" EC2 instance using the provided
+<code>ssm_start_session</code> output value. Copy the output value and paste it into your
+terminal to execute. Your terminal will now be connected to the "client" EC2
+instance.</li>
 </ol>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>aws<span class="w"> </span>eks<span class="w"> </span>--region<span class="w"> </span>&lt;<span class="nv">$AWS_REGION</span>&gt;<span class="w"> </span>update-kubeconfig<span class="w"> </span>--name<span class="w"> </span>&lt;<span class="nv">$CLUSTER_NAME</span>&gt;
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>aws<span class="w"> </span>ssm<span class="w"> </span>start-session<span class="w"> </span>--region<span class="w"> </span>us-west-2<span class="w"> </span>--target<span class="w"> </span>i-0280cf604085f4a44
 </span></code></pre></div>
 <ol>
-<li>List all the pods running in <code>aws-privateca-issuer</code> and <code>cert-manager</code> Namespace.</li>
+<li>Once logged in, export the following environment variables from the output
+of step #1:</li>
 </ol>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>aws-privateca-issuer
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>cert-manager
+<blockquote>
+<p>:exclamation: The session credentials are only valid for 1 hour; you can
+   adjust the session duration in the command provided in step #1</p>
+</blockquote>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>XXXX
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>YYYY
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SESSION_TOKEN</span><span class="o">=</span>ZZZZ
 </span></code></pre></div>
 <ol>
-<li>View the <code>certificate</code> status in the <code>default</code> Namespace. It should be in <code>Ready</code> state, and be pointing to a <code>secret</code> created in the same Namespace.</li>
+<li>Run the following command to update the local <code>~/.kube/config</code> file to enable
+access to the cluster:</li>
 </ol>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class="w"> </span>-o<span class="w"> </span>wide
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>NAME<span class="w">      </span>READY<span class="w">   </span>SECRET<span class="w">                  </span>ISSUER<span class="w">                    </span>STATUS<span class="w">                                          </span>AGE
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>example<span class="w">   </span>True<span class="w">    </span>example-clusterissuer<span class="w">   </span>tls-with-aws-pca-issuer<span class="w">   </span>Certificate<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span>to<span class="w"> </span>date<span class="w"> </span>and<span class="w"> </span>has<span class="w"> </span>not<span class="w"> </span>expired<span class="w">   </span>41m
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>example-clusterissuer
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>NAME<span class="w">                    </span>TYPE<span class="w">                </span>DATA<span class="w">   </span>AGE
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>example-clusterissuer<span class="w">   </span>kubernetes.io/tls<span class="w">   </span><span class="m">3</span><span class="w">      </span>43m
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>aws<span class="w"> </span>eks<span class="w"> </span>update-kubeconfig<span class="w"> </span>--region<span class="w"> </span>us-west-2<span class="w"> </span>--name<span class="w"> </span>privatelink-access
 </span></code></pre></div>
-<h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
-<p>To clean up your environment, destroy the Terraform modules in reverse order.</p>
-<p>Destroy the Kubernetes Add-ons, EKS cluster with Node groups and VPC</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="w"> </span>module.eks_blueprints_kubernetes_addons<span class="w"> </span>-auto-approve
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="w"> </span>module.eks<span class="w"> </span>-auto-approve
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-auto-approve
+<ol>
+<li>Test access by listing the pods running on the cluster:</li>
+</ol>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A
+</span></code></pre></div>
+<p>The test succeeded if you see an output like the one shown below:</p>
+<div class="codehilite"><pre><span></span><code>   NAMESPACE     NAME                       READY   STATUS    RESTARTS   AGE
+   kube-system   aws-node-4f8g8             1/1     Running   0          1m
+   kube-system   coredns-6ff9c46cd8-59sqp   1/1     Running   0          1m
+   kube-system   coredns-6ff9c46cd8-svnpb   1/1     Running   0          2m
+   kube-system   kube-proxy-mm2zc           1/1     Running   0          1m
+</code></pre></div>
+
+<h2 id="destroy">Destroy<a class="headerlink" href="#destroy" title="Permanent link">&para;</a></h2>
+<p>Run the following command to destroy all the resources created by Terraform:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>--auto-approve
 </span></code></pre></div>
 <!-- END INCLUDE -->
 

@@ -10,20 +10,20 @@
         <meta name="author" content="AWS">
       
       
-        <link rel="canonical" href="https://aws-ia.github.io/terraform-aws-eks-blueprints/main/blueprints/tls-with-aws-pca-issuer/">
+        <link rel="canonical" href="https://aws-ia.github.io/terraform-aws-eks-blueprints/main/blueprints/istio-multi-primary/">
       
       
-        <link rel="prev" href="../stateful/">
+        <link rel="prev" href="../ipv6-eks-cluster/">
       
       
-        <link rel="next" href="../vpc-cni-custom-networking/">
+        <link rel="next" href="../istio/">
       
       <link rel="icon" href="../../images/colored-logo.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.19">
     
     
       
-        <title>TLS w/ AWS PCA Issuer - Amazon EKS Blueprints for Terraform</title>
+        <title>Istio - Amazon EKS Blueprints for Terraform</title>
       
     
     
@@ -112,7 +112,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tls-with-aws-pca-issuer" class="md-skip">
+        <a href="#multiple-amazon-eks-clusters-multi-primary-istio-installation-with" class="md-skip">
           Skip to content
         </a>
       
@@ -150,7 +150,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              TLS w/ AWS PCA Issuer
+              Istio
             
           </span>
         </div>
@@ -458,11 +458,176 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../istio-multi-primary/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Istio
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Istio
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#notable-configuration" class="md-nav__link">
+    Notable configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#folder-structure" class="md-nav__link">
+    Folder structure
+  </a>
+  
+    <nav class="md-nav" aria-label="Folder structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#folder-0certs-tool" class="md-nav__link">
+    Folder 0.certs-tool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-0vpc" class="md-nav__link">
+    Folder 0.vpc
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-1cluster1" class="md-nav__link">
+    Folder 1.cluster1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-2cluster2" class="md-nav__link">
+    Folder 2.cluster2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-3istio-multi-primary" class="md-nav__link">
+    Folder 3.istio-multi-primary
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-4test-connectivity" class="md-nav__link">
+    Folder 4.test-connectivity
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy" class="md-nav__link">
+    Deploy
+  </a>
+  
+    <nav class="md-nav" aria-label="Deploy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prereq-provision-certificates" class="md-nav__link">
+    Prereq - Provision Certificates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-0-create-the-vpc" class="md-nav__link">
+    Step 0 - Create the VPC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-deploy-cluster-1" class="md-nav__link">
+    Step 1 - Deploy cluster-1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-deploy-cluster-2" class="md-nav__link">
+    Step 2 - Deploy cluster-2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-configure-istio-multi-primary" class="md-nav__link">
+    Step 3 - Configure Istio Multi-Primary
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-test-installation-and-connectivity" class="md-nav__link">
+    Step 4 - test installation and connectivity
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#destroy" class="md-nav__link">
+    Destroy
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -556,80 +721,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          TLS w/ AWS PCA Issuer
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../tls-with-aws-pca-issuer/" class="md-nav__link">
         TLS w/ AWS PCA Issuer
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-deploy" class="md-nav__link">
-    How to Deploy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    Prerequisites:
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deploy" class="md-nav__link">
-    Deploy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validate" class="md-nav__link">
-    Validate
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cleanup" class="md-nav__link">
-    Cleanup
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -851,9 +947,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-deploy" class="md-nav__link">
-    How to Deploy
+  <a href="#notable-configuration" class="md-nav__link">
+    Notable configuration
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#folder-structure" class="md-nav__link">
+    Folder structure
+  </a>
+  
+    <nav class="md-nav" aria-label="Folder structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#folder-0certs-tool" class="md-nav__link">
+    Folder 0.certs-tool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-0vpc" class="md-nav__link">
+    Folder 0.vpc
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-1cluster1" class="md-nav__link">
+    Folder 1.cluster1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-2cluster2" class="md-nav__link">
+    Folder 2.cluster2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-3istio-multi-primary" class="md-nav__link">
+    Folder 3.istio-multi-primary
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-4test-connectivity" class="md-nav__link">
+    Folder 4.test-connectivity
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -869,18 +1020,59 @@
     Deploy
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validate" class="md-nav__link">
-    Validate
+    <nav class="md-nav" aria-label="Deploy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prereq-provision-certificates" class="md-nav__link">
+    Prereq - Provision Certificates
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-0-create-the-vpc" class="md-nav__link">
+    Step 0 - Create the VPC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-deploy-cluster-1" class="md-nav__link">
+    Step 1 - Deploy cluster-1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-deploy-cluster-2" class="md-nav__link">
+    Step 2 - Deploy cluster-2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-configure-istio-multi-primary" class="md-nav__link">
+    Step 3 - Configure Istio Multi-Primary
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-test-installation-and-connectivity" class="md-nav__link">
+    Step 4 - test installation and connectivity
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#cleanup" class="md-nav__link">
-    Cleanup
+  <a href="#destroy" class="md-nav__link">
+    Destroy
   </a>
   
 </li>
@@ -903,20 +1095,45 @@
   
 
 
-<!-- BEGIN INCLUDE ../../examples/tls-with-aws-pca-issuer/README.md -->
-<h1 id="tls-with-aws-pca-issuer">TLS with AWS PCA Issuer<a class="headerlink" href="#tls-with-aws-pca-issuer" title="Permanent link">&para;</a></h1>
-<p>This example deploys the following</p>
+<!-- BEGIN INCLUDE ../../examples/istio-multi-cluster/README.md -->
+<h1 id="multiple-amazon-eks-clusters-multi-primary-istio-installation-with">Multiple Amazon EKS Clusters - Multi-Primary Istio installation with<a class="headerlink" href="#multiple-amazon-eks-clusters-multi-primary-istio-installation-with" title="Permanent link">&para;</a></h1>
+<p>This example shows how to provision 2 Amazon EKS clusters with Istio setup on each of them.
+The Istio will be set-up to operate in a <a href="https://istio.io/latest/docs/setup/install/multicluster/multi-primary/">Multi-Primary</a> way where services are shared across clusters.</p>
 <ul>
-<li>Basic EKS Cluster with VPC</li>
-<li>Creates a new sample VPC, 3 Private Subnets and 3 Public Subnets</li>
-<li>Creates Internet gateway for Public Subnets and NAT Gateway for Private Subnets</li>
-<li>Enables cert-manager module</li>
-<li>Enables cert-manager CSI driver module</li>
-<li>Enables aws-privateca-issuer module</li>
-<li>Creates AWS Certificate Manager Private Certificate Authority, enables and activates it</li>
-<li>Creates the CRDs to fetch <code>tls.crt</code>, <code>tls.key</code> and <code>ca.crt</code> , which will be available as Kubernetes Secret. Now you may mount the secret in the application for end to end TLS.</li>
+<li>Deploy a VPC with additional security groups to allow cross-cluster communication and communication from nodes to the other cluster API Server endpoint</li>
+<li>Deploy 2 EKS Cluster with one managed node group in an VPC</li>
+<li>Add node_security_group rules for port access required for Istio communication</li>
+<li>Install Istio using Helm resources in Terraform</li>
+<li>Install Istio Ingress Gateway using Helm resources in Terraform</li>
+<li>Deploy/Validate Istio communication using sample application</li>
 </ul>
-<h2 id="how-to-deploy">How to Deploy<a class="headerlink" href="#how-to-deploy" title="Permanent link">&para;</a></h2>
+<p>Refer to the <a href="https://istio.io/latest/docs/concepts/">documentation</a> for <code>Istio</code> concepts.</p>
+<h2 id="notable-configuration">Notable configuration<a class="headerlink" href="#notable-configuration" title="Permanent link">&para;</a></h2>
+<ul>
+<li>This sample rely on reading data from Terraform Remote State in the different folders. In a production setup, Terraform Remote State is stored in a persistent backend such as Terraform Cloud or S3. For more information, please refer to the Terraform <a href="https://developer.hashicorp.com/terraform/language/settings/backends/configuration">Backends</a> documentation</li>
+<li>The process for connecting clusters is seperated from the cluster creation as it requires all cluster to be created first, and excahnge configuration between one to the other</li>
+</ul>
+<h2 id="folder-structure">Folder structure<a class="headerlink" href="#folder-structure" title="Permanent link">&para;</a></h2>
+<h3 id="folder-0certs-tool">Folder <a href="../../examples/istio-multi-cluster/0.certs-tool/"><code>0.certs-tool</code></a><a class="headerlink" href="#folder-0certs-tool" title="Permanent link">&para;</a></h3>
+<p>This folder is the <a href="https://github.com/istio/istio/tree/master/tools/certs">Makefiles</a> from the Istio projects to generate 1 root CA with 2 intermediate CAs for each cluster. Please refer to the <a href="https://istio.io/latest/docs/tasks/security/cert-management/">"Certificate Management"</a> section in the Istio documentation. For production setup it's <a href="https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/#plug-in-certificates-and-key-into-the-cluster">highly recommended</a> by the Istio project to have a production-ready CA solution.</p>
+<blockquote>
+<p><strong><em>NOTE:</em></strong>  The <a href="../../examples/istio-multi-cluster/0.certs-tool/create-certs.sh">0.certs-tool/create-certs.sh</a> script needs to run before the cluster creation so the code will pick up the relevant certificates</p>
+</blockquote>
+<h3 id="folder-0vpc">Folder <a href="../../examples/istio-multi-cluster/0.vpc/"><code>0.vpc</code></a><a class="headerlink" href="#folder-0vpc" title="Permanent link">&para;</a></h3>
+<p>This folder creates the VPC for both clusters. The VPC creation is not part of the cluster provisionig and therefore lives in a seperate folder.
+To support the multi-cluster/Multi-Primary setup, this folder also creates additional security group to be used by each cluster worker nodes to allow cross-cluster communication (resources <code>cluster1_additional_sg</code> and <code>cluster2_additional_sg</code>). These security groups allow communication from one to the other and each will be added to the worker nodes of the relevant cluster</p>
+<h3 id="folder-1cluster1">Folder <a href="../../examples/istio-multi-cluster/1.cluster1/"><code>1.cluster1</code></a><a class="headerlink" href="#folder-1cluster1" title="Permanent link">&para;</a></h3>
+<p>This folder creates an Amazon EKS Cluster, named by default <code>cluster-1</code> (see <a href="../../examples/istio-multi-cluster/1.cluster1/variables.tf"><code>variables.tf</code></a>), with AWS Load Balancer Controller, and Istio installation.
+Configurations in this folder to be aware of:
+* The cluster is configured to use the security groups created in the <code>0.vpc</code> folder (<code>cluster1_additional_sg</code> in this case).
+* Kubernetes Secret named <code>cacerts</code> is created with the certificates created by the <a href="../../examples/istio-multi-cluster/0.certs-tool/create-certs.sh">0.certs-tool/create-certs.sh</a> script
+* Kubernetes Secret named <code>cacerts</code> named <code>istio-reader-service-account-istio-remote-secret-token</code> of type <code>Service-Account</code> is being created. This is to replicate the <a href="https://istio.io/latest/docs/reference/commands/istioctl/#istioctl-experimental-create-remote-secret">istioctl experimental create-remote-secret</a> command. This secret will be used in folder <a href="../../examples/istio-multi-cluster/3.istio-multi-primary/"><code>3.istio-multi-primary</code></a> to apply kubeconfig secret with tokens from the other cluster to be abble to communicate to the other cluster API Server</p>
+<h3 id="folder-2cluster2">Folder <a href="../../examples/istio-multi-cluster/2.cluster2/"><code>2.cluster2</code></a><a class="headerlink" href="#folder-2cluster2" title="Permanent link">&para;</a></h3>
+<p>Same configuration as in <code>1.cluster1</code> except the name of the cluster which is <code>cluster-2</code>.</p>
+<h3 id="folder-3istio-multi-primary">Folder <a href="../../examples/istio-multi-cluster/3.istio-multi-primary/"><code>3.istio-multi-primary</code></a><a class="headerlink" href="#folder-3istio-multi-primary" title="Permanent link">&para;</a></h3>
+<p>This folder deploys a reader secret on each cluster. It replicates the <a href="https://istio.io/latest/docs/reference/commands/istioctl/#istioctl-experimental-create-remote-secret"><code>istioctl experimental create-remote-secret</code></a> by applying a kubeconfig secret prefixed <code>istio-remote-secret-</code> with the cluster name at the end.</p>
+<h3 id="folder-4test-connectivity">Folder <a href="../../examples/istio-multi-cluster/4.test-connectivity/"><code>4.test-connectivity</code></a><a class="headerlink" href="#folder-4test-connectivity" title="Permanent link">&para;</a></h3>
+<p>This folder test the installation connectivity. It follows the Istio guide <a href="https://istio.io/latest/docs/setup/install/multicluster/verify/">Verify the installation</a> by deploying services on each cluster, and <code>curl</code>-ing from one to the other</p>
 <h2 id="prerequisites">Prerequisites:<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>Ensure that you have the following tools installed locally:</p>
 <ol>
@@ -925,52 +1142,51 @@
 <li><a href="https://learn.hashicorp.com/tutorials/terraform/install-cli">terraform</a></li>
 </ol>
 <h2 id="deploy">Deploy<a class="headerlink" href="#deploy" title="Permanent link">&para;</a></h2>
-<p>To provision this example:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>terraform<span class="w"> </span>init
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-target<span class="w"> </span>module.vpc
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-target<span class="w"> </span>module.eks
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>terraform<span class="w"> </span>apply
+<h3 id="prereq-provision-certificates">Prereq - Provision Certificates<a class="headerlink" href="#prereq-provision-certificates" title="Permanent link">&para;</a></h3>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span><span class="m">0</span>.certs-tool
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>./create-certs.sh
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>cd..
 </span></code></pre></div>
-<p>Enter <code>yes</code> at command prompt to apply</p>
-<h2 id="validate">Validate<a class="headerlink" href="#validate" title="Permanent link">&para;</a></h2>
-<p>The following command will update the <code>kubeconfig</code> on your local machine and allow you to interact with your EKS Cluster using <code>kubectl</code> to validate the CoreDNS deployment for Fargate.</p>
-<ol>
-<li>Check the Terraform provided Output, to update your <code>kubeconfig</code></li>
-</ol>
-<div class="language-hcl highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="err">Apply</span><span class="w"> </span><span class="err">complete</span><span class="p">!</span><span class="w"> </span><span class="err">Resources</span><span class="p">:</span><span class="w"> </span><span class="m">63</span><span class="w"> </span><span class="err">added</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="err">changed</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="err">destroyed</span><span class="p">.</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="err">Outputs</span><span class="p">:</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="na">configure_kubectl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;aws eks --region us-west-2 update-kubeconfig --name fully-private-cluster&quot;</span>
+<h3 id="step-0-create-the-vpc">Step 0 - Create the VPC<a class="headerlink" href="#step-0-create-the-vpc" title="Permanent link">&para;</a></h3>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span><span class="m">0</span>.certs-tool
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>./create-certs.sh
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>cd..
 </span></code></pre></div>
-<ol>
-<li>Run <code>update-kubeconfig</code> command, using the Terraform provided Output, replace with your <code>$AWS_REGION</code> and your <code>$CLUSTER_NAME</code> variables.</li>
-</ol>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>aws<span class="w"> </span>eks<span class="w"> </span>--region<span class="w"> </span>&lt;<span class="nv">$AWS_REGION</span>&gt;<span class="w"> </span>update-kubeconfig<span class="w"> </span>--name<span class="w"> </span>&lt;<span class="nv">$CLUSTER_NAME</span>&gt;
+<h3 id="step-1-deploy-cluster-1">Step 1 - Deploy cluster-1<a class="headerlink" href="#step-1-deploy-cluster-1" title="Permanent link">&para;</a></h3>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span><span class="m">1</span>.cluster1
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>terraform<span class="w"> </span>init
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-auto-approve
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>cd..
 </span></code></pre></div>
-<ol>
-<li>List all the pods running in <code>aws-privateca-issuer</code> and <code>cert-manager</code> Namespace.</li>
-</ol>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>aws-privateca-issuer
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>cert-manager
+<h3 id="step-2-deploy-cluster-2">Step 2 - Deploy cluster-2<a class="headerlink" href="#step-2-deploy-cluster-2" title="Permanent link">&para;</a></h3>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span><span class="m">2</span>.cluster2
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>terraform<span class="w"> </span>init
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-auto-approve
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>cd..
 </span></code></pre></div>
-<ol>
-<li>View the <code>certificate</code> status in the <code>default</code> Namespace. It should be in <code>Ready</code> state, and be pointing to a <code>secret</code> created in the same Namespace.</li>
-</ol>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class="w"> </span>-o<span class="w"> </span>wide
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>NAME<span class="w">      </span>READY<span class="w">   </span>SECRET<span class="w">                  </span>ISSUER<span class="w">                    </span>STATUS<span class="w">                                          </span>AGE
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>example<span class="w">   </span>True<span class="w">    </span>example-clusterissuer<span class="w">   </span>tls-with-aws-pca-issuer<span class="w">   </span>Certificate<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span>to<span class="w"> </span>date<span class="w"> </span>and<span class="w"> </span>has<span class="w"> </span>not<span class="w"> </span>expired<span class="w">   </span>41m
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>example-clusterissuer
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>NAME<span class="w">                    </span>TYPE<span class="w">                </span>DATA<span class="w">   </span>AGE
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>example-clusterissuer<span class="w">   </span>kubernetes.io/tls<span class="w">   </span><span class="m">3</span><span class="w">      </span>43m
+<h3 id="step-3-configure-istio-multi-primary">Step 3 - Configure Istio Multi-Primary<a class="headerlink" href="#step-3-configure-istio-multi-primary" title="Permanent link">&para;</a></h3>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">cd</span><span class="w"> </span><span class="m">3</span>.istio-multi-primary
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>terraform<span class="w"> </span>init
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-auto-approve
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>cd..
 </span></code></pre></div>
-<h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
-<p>To clean up your environment, destroy the Terraform modules in reverse order.</p>
-<p>Destroy the Kubernetes Add-ons, EKS cluster with Node groups and VPC</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="w"> </span>module.eks_blueprints_kubernetes_addons<span class="w"> </span>-auto-approve
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-target<span class="w"> </span>module.eks<span class="w"> </span>-auto-approve
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>terraform<span class="w"> </span>destroy<span class="w"> </span>-auto-approve
+<h3 id="step-4-test-installation-and-connectivity">Step 4 - test installation and connectivity<a class="headerlink" href="#step-4-test-installation-and-connectivity" title="Permanent link">&para;</a></h3>
+<p><div class="language-shell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">cd</span><span class="w"> </span><span class="m">4</span>.test-connectivity
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>./test_connectivity.sh
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>cd..
+</span></code></pre></div>
+This script deploy the sample application to both clusters and run curl from a pod in one cluster to a service that is deployed in both cluster. You should expect to see responses from both <code>V1</code> and <code>V2</code> of the sample application.
+The script run 4 <code>curl</code> command from cluster-1 to cluster-2 and vice versa</p>
+<h2 id="destroy">Destroy<a class="headerlink" href="#destroy" title="Permanent link">&para;</a></h2>
+<p>To teardown and remove the resources created in this example:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">cd</span><span class="w"> </span><span class="m">3</span>.istio-multi-primary
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-destroy<span class="w"> </span>-autoapprove
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nb">cd</span><span class="w"> </span>../2.cluster2
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-destroy<span class="w"> </span>-autoapprove
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">cd</span><span class="w"> </span>../1.cluster1
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-destroy<span class="w"> </span>-autoapprove
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nb">cd</span><span class="w"> </span>../0.vpc
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-destroy<span class="w"> </span>-autoapprove
 </span></code></pre></div>
 <!-- END INCLUDE -->
 
