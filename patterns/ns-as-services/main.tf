@@ -270,16 +270,7 @@ resource "kubectl_manifest" "karpenter_node_template" {
       securityGroupSelector:
         karpenter.sh/discovery: ${module.eks.cluster_name}
       instanceProfile: ${module.eks_blueprints_addons.karpenter.node_instance_profile_name}
-      userData: |
-          MIME-Version: 1.0
-          Content-Type: multipart/mixed; boundary="BOUNDARY"
-
-          --BOUNDARY
-          Content-Type: text/x-shellscript; charset="us-ascii"
-
-          #!/bin/bash
-          sudo mount -t bpf bpffs /sys/fs/bpf
-          --BOUNDARY--
+      
       tags:
         karpenter.sh/discovery: ${module.eks.cluster_name}
   YAML
