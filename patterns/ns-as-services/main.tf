@@ -111,6 +111,23 @@ module "eks" {
         { namespace = "kube-system" }
       ]
     }
+
+    gatekeeper = {
+      name = "gatekeeper"
+      selectors = [
+        { namespace = "gatekeeper-system" }
+      ]
+    }
+  }
+
+  eks_managed_node_groups = {
+    common = {
+      instance_types = ["m5.large"]
+
+      min_size     = 1
+      max_size     = 5
+      desired_size = 3
+    }
   }
 
   tags = merge(local.tags, {
@@ -165,12 +182,7 @@ module "eks_blueprints_addons" {
     }
     vpc-cni = {
       configuration_values = jsonencode({
-        enableNetworkPolicy = "true",
-        nodeAgent = {
-          enableCloudWatchLogs = "true"
-          healthProbeBindAddr  = "8163"
-          metricsBindAddr      = "8162"
-        }
+        enableNetworkPolicy = "true"
       })
     }
     kube-proxy = {}
@@ -270,7 +282,6 @@ resource "kubectl_manifest" "karpenter_node_template" {
       securityGroupSelector:
         karpenter.sh/discovery: ${module.eks.cluster_name}
       instanceProfile: ${module.eks_blueprints_addons.karpenter.node_instance_profile_name}
-      
       tags:
         karpenter.sh/discovery: ${module.eks.cluster_name}
   YAML
