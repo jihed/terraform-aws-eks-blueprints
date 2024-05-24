@@ -13,14 +13,14 @@
         <link rel="canonical" href="https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/blue-green-upgrade/">
       
       
-        <link rel="prev" href="../argocd/">
+        <link rel="prev" href="../aws-vpc-cni-network-policy/">
       
       
-        <link rel="next" href="../elastic-fabric-adapter/">
+        <link rel="next" href="../external-secrets/">
       
       
       <link rel="icon" href="../../images/colored-logo.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.3.1">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.21">
     
     
       
@@ -28,10 +28,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.046329b4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.66ac8b77.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
   
@@ -109,7 +109,6 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="orange">
   
     
-    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
@@ -166,6 +165,7 @@
     
     
     
+    
       <label class="md-header__button md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
@@ -208,7 +208,7 @@
         <a href="https://github.com/aws-ia/terraform-aws-eks-blueprints" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     terraform-aws-eks-blueprints
@@ -253,7 +253,7 @@
       <a href="https://github.com/aws-ia/terraform-aws-eks-blueprints" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     terraform-aws-eks-blueprints
@@ -265,6 +265,7 @@
     
       
       
+  
   
   
   
@@ -284,6 +285,7 @@
     
       
       
+  
   
   
   
@@ -308,6 +310,8 @@
     
   
   
+  
+    
     
     
     
@@ -315,10 +319,9 @@
       
         
         
-        
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
+          
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
@@ -342,6 +345,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../agones-game-controller/" class="md-nav__link">
         
@@ -362,32 +366,13 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../appmesh-mtls/" class="md-nav__link">
+      <a href="../aws-vpc-cni-network-policy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    AWS AppMesh mTLS
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../argocd/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ArgoCD
+    AWS VPC CNI Network Policy
   </span>
   
 
@@ -402,6 +387,7 @@
   
   
     
+  
   
   
     <li class="md-nav__item md-nav__item--active">
@@ -450,28 +436,36 @@
       
         <li class="md-nav__item">
   <a href="#table-of-content" class="md-nav__link">
-    Table of content
+    <span class="md-ellipsis">
+      Table of content
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#project-structure" class="md-nav__link">
-    Project structure
+    <span class="md-ellipsis">
+      Project structure
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#prerequisites" class="md-nav__link">
-    Prerequisites
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#quick-start" class="md-nav__link">
-    Quick Start
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Quick Start">
@@ -479,28 +473,36 @@
         
           <li class="md-nav__item">
   <a href="#configure-the-stacks" class="md-nav__link">
-    Configure the Stacks
+    <span class="md-ellipsis">
+      Configure the Stacks
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#create-the-environment-stack" class="md-nav__link">
-    Create the environment stack
+    <span class="md-ellipsis">
+      Create the environment stack
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#create-the-blue-cluster" class="md-nav__link">
-    Create the Blue cluster
+    <span class="md-ellipsis">
+      Create the Blue cluster
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#create-the-green-cluster" class="md-nav__link">
-    Create the Green cluster
+    <span class="md-ellipsis">
+      Create the Green cluster
+    </span>
   </a>
   
 </li>
@@ -512,7 +514,9 @@
       
         <li class="md-nav__item">
   <a href="#how-this-work" class="md-nav__link">
-    How this work
+    <span class="md-ellipsis">
+      How this work
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="How this work">
@@ -520,14 +524,18 @@
         
           <li class="md-nav__item">
   <a href="#watch-our-workload-we-focus-on-team-burnham-namespace" class="md-nav__link">
-    Watch our Workload: we focus on team-burnham namespace.
+    <span class="md-ellipsis">
+      Watch our Workload: we focus on team-burnham namespace.
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#using-aws-route53-and-external-dns" class="md-nav__link">
-    Using AWS Route53 and External DNS
+    <span class="md-ellipsis">
+      Using AWS Route53 and External DNS
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Using AWS Route53 and External DNS">
@@ -535,7 +543,9 @@
         
           <li class="md-nav__item">
   <a href="#configure-ingress-resources-with-weighted-records" class="md-nav__link">
-    Configure Ingress resources with weighted records
+    <span class="md-ellipsis">
+      Configure Ingress resources with weighted records
+    </span>
   </a>
   
 </li>
@@ -552,14 +562,18 @@
       
         <li class="md-nav__item">
   <a href="#automate-the-migration-from-terraform" class="md-nav__link">
-    Automate the migration from Terraform
+    <span class="md-ellipsis">
+      Automate the migration from Terraform
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#delete-the-stack" class="md-nav__link">
-    Delete the Stack
+    <span class="md-ellipsis">
+      Delete the Stack
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Delete the Stack">
@@ -567,7 +581,9 @@
         
           <li class="md-nav__item">
   <a href="#delete-the-eks-clusters" class="md-nav__link">
-    Delete the EKS Cluster(s)
+    <span class="md-ellipsis">
+      Delete the EKS Cluster(s)
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Delete the EKS Cluster(s)">
@@ -575,27 +591,15 @@
         
           <li class="md-nav__item">
   <a href="#tldr" class="md-nav__link">
-    TL;DR
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#manual" class="md-nav__link">
-    Manual
+    <span class="md-ellipsis">
+      TL;DR
+    </span>
   </a>
   
 </li>
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#delete-the-environment-stack" class="md-nav__link">
-    Delete the environment stack
-  </a>
   
 </li>
         
@@ -606,7 +610,9 @@
       
         <li class="md-nav__item">
   <a href="#troubleshoot" class="md-nav__link">
-    Troubleshoot
+    <span class="md-ellipsis">
+      Troubleshoot
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Troubleshoot">
@@ -614,28 +620,36 @@
         
           <li class="md-nav__item">
   <a href="#external-dns-ownership" class="md-nav__link">
-    External DNS Ownership
+    <span class="md-ellipsis">
+      External DNS Ownership
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#check-route-53-record-status" class="md-nav__link">
-    Check Route 53 Record status
+    <span class="md-ellipsis">
+      Check Route 53 Record status
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#check-current-resolution-and-ttl-value" class="md-nav__link">
-    Check current resolution and TTL value
+    <span class="md-ellipsis">
+      Check current resolution and TTL value
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#get-argocd-ui-password" class="md-nav__link">
-    Get ArgoCD UI Password
+    <span class="md-ellipsis">
+      Get ArgoCD UI Password
+    </span>
   </a>
   
 </li>
@@ -659,25 +673,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../elastic-fabric-adapter/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Elastic Fabric Adapter
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
     <li class="md-nav__item">
       <a href="../external-secrets/" class="md-nav__link">
@@ -696,6 +691,7 @@
             
               
                 
+  
   
   
   
@@ -719,6 +715,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../fully-private-cluster/" class="md-nav__link">
         
@@ -736,6 +733,49 @@
             
               
                 
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gitops-getting-started-argocd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitOps Getting Started (ArgoCD)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gitops-multi-cluster-hub-spoke-argocd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitOps Multi-Cluster Hub-Spoke Topology (ArgoCD)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
   
   
   
@@ -759,25 +799,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../istio-multi-cluster/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Istio - Multi-Cluster
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
     <li class="md-nav__item">
       <a href="../istio/" class="md-nav__link">
@@ -799,12 +820,13 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../karpenter/" class="md-nav__link">
+      <a href="../karpenter-mng/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Karpenter
+    Karpenter on EKS MNG
   </span>
   
 
@@ -816,6 +838,70 @@
             
               
                 
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../karpenter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Karpenter on EKS Fargate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubecost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubecost
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ml-capacity-block/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ML Capacity Block Reservation (CBR)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
   
   
   
@@ -839,6 +925,28 @@
   
   
   
+  
+    <li class="md-nav__item">
+      <a href="../nvidia-gpu-efa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NVIDIA GPUs with EFA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../private-public-ingress/" class="md-nav__link">
         
@@ -856,6 +964,7 @@
             
               
                 
+  
   
   
   
@@ -879,6 +988,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../sso-iam-identity-center/" class="md-nav__link">
         
@@ -896,6 +1006,7 @@
             
               
                 
+  
   
   
   
@@ -919,6 +1030,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../stateful/" class="md-nav__link">
         
@@ -936,6 +1048,28 @@
             
               
                 
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../targeted-odcr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Targeted On-Demand Capacity Reservation (ODCR)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
   
   
   
@@ -959,6 +1093,28 @@
   
   
   
+  
+    <li class="md-nav__item">
+      <a href="../vpc-lattice/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amazon VPC Lattice
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../wireguard-with-cilium/" class="md-nav__link">
         
@@ -969,6 +1125,70 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_26" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_26" id="__nav_3_26_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Vpc lattice
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_26_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_26">
+            <span class="md-nav__icon md-icon"></span>
+            Vpc lattice
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vpc-lattice/client-server-communication/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Amazon VPC Lattice Client-server Communication
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -986,6 +1206,8 @@
   
   
   
+  
+    
     
     
     
@@ -993,10 +1215,9 @@
       
         
         
-        
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
+          
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
@@ -1020,6 +1241,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../../snippets/ipv4-prefix-delegation/" class="md-nav__link">
         
@@ -1037,6 +1259,7 @@
             
               
                 
+  
   
   
   
@@ -1067,6 +1290,8 @@
   
   
   
+  
+    
     
     
     
@@ -1074,10 +1299,9 @@
       
         
         
-        
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
+          
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
@@ -1101,6 +1325,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../../v4-to-v5/motivation/" class="md-nav__link">
         
@@ -1118,6 +1343,7 @@
             
               
                 
+  
   
   
   
@@ -1141,6 +1367,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="../../v4-to-v5/addons/" class="md-nav__link">
         
@@ -1158,6 +1385,7 @@
             
               
                 
+  
   
   
   
@@ -1185,6 +1413,7 @@
     
       
       
+  
   
   
   
@@ -1230,28 +1459,36 @@
       
         <li class="md-nav__item">
   <a href="#table-of-content" class="md-nav__link">
-    Table of content
+    <span class="md-ellipsis">
+      Table of content
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#project-structure" class="md-nav__link">
-    Project structure
+    <span class="md-ellipsis">
+      Project structure
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#prerequisites" class="md-nav__link">
-    Prerequisites
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#quick-start" class="md-nav__link">
-    Quick Start
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Quick Start">
@@ -1259,28 +1496,36 @@
         
           <li class="md-nav__item">
   <a href="#configure-the-stacks" class="md-nav__link">
-    Configure the Stacks
+    <span class="md-ellipsis">
+      Configure the Stacks
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#create-the-environment-stack" class="md-nav__link">
-    Create the environment stack
+    <span class="md-ellipsis">
+      Create the environment stack
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#create-the-blue-cluster" class="md-nav__link">
-    Create the Blue cluster
+    <span class="md-ellipsis">
+      Create the Blue cluster
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#create-the-green-cluster" class="md-nav__link">
-    Create the Green cluster
+    <span class="md-ellipsis">
+      Create the Green cluster
+    </span>
   </a>
   
 </li>
@@ -1292,7 +1537,9 @@
       
         <li class="md-nav__item">
   <a href="#how-this-work" class="md-nav__link">
-    How this work
+    <span class="md-ellipsis">
+      How this work
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="How this work">
@@ -1300,14 +1547,18 @@
         
           <li class="md-nav__item">
   <a href="#watch-our-workload-we-focus-on-team-burnham-namespace" class="md-nav__link">
-    Watch our Workload: we focus on team-burnham namespace.
+    <span class="md-ellipsis">
+      Watch our Workload: we focus on team-burnham namespace.
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#using-aws-route53-and-external-dns" class="md-nav__link">
-    Using AWS Route53 and External DNS
+    <span class="md-ellipsis">
+      Using AWS Route53 and External DNS
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Using AWS Route53 and External DNS">
@@ -1315,7 +1566,9 @@
         
           <li class="md-nav__item">
   <a href="#configure-ingress-resources-with-weighted-records" class="md-nav__link">
-    Configure Ingress resources with weighted records
+    <span class="md-ellipsis">
+      Configure Ingress resources with weighted records
+    </span>
   </a>
   
 </li>
@@ -1332,14 +1585,18 @@
       
         <li class="md-nav__item">
   <a href="#automate-the-migration-from-terraform" class="md-nav__link">
-    Automate the migration from Terraform
+    <span class="md-ellipsis">
+      Automate the migration from Terraform
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#delete-the-stack" class="md-nav__link">
-    Delete the Stack
+    <span class="md-ellipsis">
+      Delete the Stack
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Delete the Stack">
@@ -1347,7 +1604,9 @@
         
           <li class="md-nav__item">
   <a href="#delete-the-eks-clusters" class="md-nav__link">
-    Delete the EKS Cluster(s)
+    <span class="md-ellipsis">
+      Delete the EKS Cluster(s)
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Delete the EKS Cluster(s)">
@@ -1355,27 +1614,15 @@
         
           <li class="md-nav__item">
   <a href="#tldr" class="md-nav__link">
-    TL;DR
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#manual" class="md-nav__link">
-    Manual
+    <span class="md-ellipsis">
+      TL;DR
+    </span>
   </a>
   
 </li>
         
       </ul>
     </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#delete-the-environment-stack" class="md-nav__link">
-    Delete the environment stack
-  </a>
   
 </li>
         
@@ -1386,7 +1633,9 @@
       
         <li class="md-nav__item">
   <a href="#troubleshoot" class="md-nav__link">
-    Troubleshoot
+    <span class="md-ellipsis">
+      Troubleshoot
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Troubleshoot">
@@ -1394,28 +1643,36 @@
         
           <li class="md-nav__item">
   <a href="#external-dns-ownership" class="md-nav__link">
-    External DNS Ownership
+    <span class="md-ellipsis">
+      External DNS Ownership
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#check-route-53-record-status" class="md-nav__link">
-    Check Route 53 Record status
+    <span class="md-ellipsis">
+      Check Route 53 Record status
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#check-current-resolution-and-ttl-value" class="md-nav__link">
-    Check current resolution and TTL value
+    <span class="md-ellipsis">
+      Check current resolution and TTL value
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#get-argocd-ui-password" class="md-nav__link">
-    Get ArgoCD UI Password
+    <span class="md-ellipsis">
+      Get ArgoCD UI Password
+    </span>
   </a>
   
 </li>
@@ -1452,7 +1709,7 @@
 </blockquote>
 <h2 id="table-of-content">Table of content<a class="headerlink" href="#table-of-content" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../patterns/blue-green-upgrade#bluegreen-or-canary-amazon-eks-clusters-migration-for-stateless-argocd-workloads">Blue/Green or Canary Amazon EKS clusters migration for stateless ArgoCD workloads</a></li>
+<li><a href="../../patterns/blue-green-upgrade#bluegreen-migration">Blue/Green Migration</a></li>
 <li><a href="../../patterns/blue-green-upgrade#table-of-content">Table of content</a></li>
 <li><a href="../../patterns/blue-green-upgrade#project-structure">Project structure</a></li>
 <li><a href="../../patterns/blue-green-upgrade#prerequisites">Prerequisites</a></li>
@@ -1473,8 +1730,6 @@
 <li><a href="../../patterns/blue-green-upgrade#delete-the-stack">Delete the Stack</a><ul>
 <li><a href="../../patterns/blue-green-upgrade#delete-the-eks-clusters">Delete the EKS Cluster(s)</a></li>
 <li><a href="../../patterns/blue-green-upgrade#tldr">TL;DR</a></li>
-<li><a href="../../patterns/blue-green-upgrade#manual">Manual</a></li>
-<li><a href="../../patterns/blue-green-upgrade#delete-the-environment-stack">Delete the environment stack</a></li>
 </ul>
 </li>
 <li><a href="../../patterns/blue-green-upgrade#troubleshoot">Troubleshoot</a><ul>
@@ -1488,7 +1743,7 @@
 <h2 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
 <p>See the Architecture of what we are building</p>
 <p align="center">
-  <img src="static/archi-blue-green.png"/>
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/archi-blue-green.png"/>
 </p>
 
 <p>Our sample is composed of four main directory:</p>
@@ -1501,7 +1756,9 @@
 <p>So we are going to create 2 EKS clusters, sharing the same VPC, and each one of them will install locally our workloads from the central GitOps repository leveraging ArgoCD add-on.
 In the GitOps workload repository, we have configured our applications deployments to leverage AWS Load Balancers Controllers annotations, so that applications will be exposed on AWS Load Balancers, created from our Kubernetes manifests. We will have 1 load balancer per cluster for each of our applications.</p>
 <p>We have configured ExternalDNS add-ons in our two clusters to share the same Route53 Hosted Zone. The workloads in both clusters also share the same Route 53 DNS records, we rely on AWS Route53 weighted records to allow us to configure canary workload migration between our two EKS clusters.</p>
-<p>Here we use the same GitOps workload configuration repository and adapt parameters with the <code>values.yaml</code>. We could also use different ArgoCD repository for each cluster, or use a new directory if we want to validate or test new deployment manifests with maybe additional features, configurations or to use with different Kubernetes add-ons (like changing ingress controller).</p>
+<p>We are leveraging the <a href="https://github.com/gitops-bridge-dev/gitops-bridge-argocd-bootstrap-terraform">gitops-bridge-argocd-bootstrap</a> terraform module that allow us to dynamically provide metadatas from Terraform to ArgoCD deployed in the cluster. For doing this, the module will extract all metadatas from the <a href="https://github.com/aws-ia/terraform-aws-eks-blueprints-addons">terraform-aws-eks-blueprints-addons</a> module, configured to create all resources except installing the addon's Helm chart. The addon Installation will be delegate to ArgoCD Itself using the <a href="https://github.com/aws-samples/eks-blueprints-add-ons/tree/main/argocd/bootstrap/control-plane/addons">eks-blueprints-add-ons</a> git repository containing ArgoCD ApplicaitonSets for each supported Addons.</p>
+<p>The gitops-bridge will create a secret in the EKS cluster containing all metadatas that will be dynamically used by ArgoCD ApplicationSets at deployment time, so that we can adapt their configuration to our EKS cluster context.</p>
+<p><img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/gitops-bridge.excalidraw.png" width=100%></p>
 <p>Our objective here is to show you how Application teams and Platform teams can configure their infrastructure and workloads so that application teams are able to deploy autonomously their workloads to the EKS clusters thanks to ArgoCD, and platform team can keep the control of migrating production workloads from one cluster to another without having to synchronized operations with applications teams, or asking them to build a complicated CD pipeline.</p>
 <blockquote>
 <p>In this example we show how you can seamlessly migrate your stateless workloads between the 2 clusters for a blue/green or Canary migration, but you can also leverage the same architecture to have your workloads for example separated in different accounts or regions, for either High Availability or Lower latency Access from your customers.</p>
@@ -1516,7 +1773,7 @@ In the GitOps workload repository, we have configured our applications deploymen
 <li>Before moving to the next step, you will need to register a parent domain with AWS Route 53 (https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html) in case you don’t have one created yet.</li>
 <li>Accessing GitOps git repositories with SSH access requiring an SSH key for authentication. In this example our workloads repositories are stored in GitHub, you can see in GitHub documentation on how to <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh">connect with SSH</a>.</li>
 <li>Your GitHub private ssh key value is supposed to be stored in plain text in AWS Secret Manager in a secret named <code>github-blueprint-ssh-key</code>, but you can change it using the terraform variable <code>workload_repo_secret</code> in <a href="../../patterns/blue-green-upgrade/terraform.tfvars.example">terraform.tfvars.example</a>.</li>
-<li><img src="static/github-ssh-secret.png" width=50%></li>
+<li><img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/github-ssh-secret.png" width=50%></li>
 </ul>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <h3 id="configure-the-stacks">Configure the Stacks<a class="headerlink" href="#configure-the-stacks" title="Permanent link">&para;</a></h3>
@@ -1527,11 +1784,12 @@ In the GitOps workload repository, we have configured our applications deploymen
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>patterns/blue-green-upgrade/
 </span></code></pre></div>
 <ol>
-<li>Copy the <code>terraform.tfvars.example</code> to <code>terraform.tfvars</code> on each <code>environment</code>, <code>eks-blue</code> and <code>eks-green</code> folders, and change region, hosted_zone_name, eks_admin_role_name according to your needs.</li>
+<li>Copy the <code>terraform.tfvars.example</code> to <code>terraform.tfvars</code> and symlink it on each <code>environment</code>, <code>eks-blue</code> and <code>eks-green</code> folders, and change region, hosted_zone_name, eks_admin_role_name according to your needs.</li>
 </ol>
-<div class="language-shell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cp<span class="w"> </span>terraform.tfvars.example<span class="w"> </span>environment/terraform.tfvars
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>cp<span class="w"> </span>terraform.tfvars.example<span class="w"> </span>eks-blue/terraform.tfvars
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>cp<span class="w"> </span>terraform.tfvars.example<span class="w"> </span>eks-green/terraform.tfvars
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cp<span class="w"> </span>terraform.tfvars.example<span class="w"> </span>terraform.tfvars
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>ln<span class="w"> </span>-s<span class="w"> </span>../terraform.tfvars<span class="w"> </span>environment/terraform.tfvars
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>ln<span class="w"> </span>-s<span class="w"> </span>../terraform.tfvars<span class="w"> </span>eks-blue/terraform.tfvars
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>ln<span class="w"> </span>-s<span class="w"> </span>../terraform.tfvars<span class="w"> </span>eks-green/terraform.tfvars
 </span></code></pre></div>
 <ul>
 <li>You will need to provide the <code>hosted_zone_name</code> for example <code>my-example.com</code>. Terraform will create a new hosted zone for the project with name: <code>${environment}.${hosted_zone_name}</code> so in our example <code>eks-blueprint.my-example.com</code>.</li>
@@ -1569,7 +1827,7 @@ In the GitOps workload repository, we have configured our applications deploymen
 <li><a href="https://github.com/aws-samples/eks-blueprints-workloads">Workloads repository</a></li>
 </ul>
 <p align="center">
-  <img src="static/eks-argo.png"/>
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/eks-argo.png"/>
 </p>
 
 <p>We are going to look after one of the application deployed from the workload repository as example to demonstrate our migration automation: the <code>Burnham</code> workload in the team-burnham namespace.
@@ -1617,32 +1875,29 @@ We have set up a <a href="https://github.com/allamand/eks-example-go">simple go 
 </span></code></pre></div>
 <h3 id="using-aws-route53-and-external-dns">Using AWS Route53 and External DNS<a class="headerlink" href="#using-aws-route53-and-external-dns" title="Permanent link">&para;</a></h3>
 <p>We have configured both our clusters to configure the same <a href="https://aws.amazon.com/fr/route53/">Amazon Route 53</a> Hosted Zones. This is done by having the same configuration of <a href="https://github.com/kubernetes-sigs/external-dns">ExternalDNS</a> add-on in <code>main.tf</code>:</p>
-<p>This is the Terraform configuration to configure the ExternalDNS Add-on which is deployed by the Blueprint using ArgoCD.</p>
+<p>This is the Terraform configuration to configure the ExternalDNS Add-on which is deployed by the Blueprint using ArgoCD. we specify the Route53 zone that external-dns needs to monitor.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>  enable_external_dns = true
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>  external_dns_helm_config = {
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    txtOwnerId         = local.name
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    zoneIdFilter       = data.aws_route53_zone.sub.zone_id
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    policy             = &quot;sync&quot;
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    awszoneType        = &quot;public&quot;
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    zonesCacheDuration = &quot;1h&quot;
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    logLevel           = &quot;debug&quot;
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  }
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>  external_dns_route53_zone_arns      = [data.aws_route53_zone.sub.arn]
+</span></code></pre></div>
+<p>we also configure the addons_metadata to provide more configurations to external-dns:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>addons_metadata = merge(
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>  ...
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>  external_dns_policy        = &quot;sync&quot;
 </span></code></pre></div>
 <ul>
 <li>We use ExternalDNS in <code>sync</code> mode so that the controller can create but also remove DNS records accordingly to service or ingress objects creation.</li>
 <li>We also configured the <code>txtOwnerId</code> with the name of the cluster, so that each controller will be able to create/update/delete records but only for records which are associated to the proper OwnerId.</li>
 <li>Each Route53 record will be also associated with a <code>txt</code> record. This record is used to specify the owner of the associated record and is in the form of:</li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>&quot;heritage=external-dns,external-dns/owner=eks-blueprint-blue,external-dns/resource=ingress/team-burnham/burnham-ingress&quot;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>&quot;heritage=external-dns,external-dns/owner=eks-blueprint-blue,external-dns/resource=ingress/team-burnham/burnham-ingress&quot;
 </span></code></pre></div>
 <p>So in this example the Owner of the record is the <strong>external-dns</strong> controller, from the <strong>eks-blueprint-blue</strong> EKS cluster, and correspond to the Kubernetes ingress resource names burnham-ingress in the team-burnham namespace.</p>
 <p>Using this feature, and relying on weighted records, we will be able to do blue/green or canary migration by changing the weight of ingress resources defined in each cluster.</p>
 <h4 id="configure-ingress-resources-with-weighted-records">Configure Ingress resources with weighted records<a class="headerlink" href="#configure-ingress-resources-with-weighted-records" title="Permanent link">&para;</a></h4>
 <p>Since we have configured ExternalDNS add-on, we can now defined specific annotation in our <code>ingress</code> object. You may already know that our workload are synchronized using ArgoCD from our workload repository sample.</p>
 <p>We are focusing on the burnham deployment, which is defined <a href="https://github.com/aws-samples/eks-blueprints-workloads/blob/main/teams/team-burnham/dev/templates/burnham.yaml">here</a> where we configure the <code>burnham-ingress</code> ingress object with:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>    external-dns.alpha.kubernetes.io/set-identifier: {{ .Values.spec.clusterName }}
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    external-dns.alpha.kubernetes.io/aws-weight: &#39;{{ .Values.spec.ingress.route53_weight }}&#39;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>    external-dns.alpha.kubernetes.io/set-identifier: {{ .Values.spec.clusterName }}
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    external-dns.alpha.kubernetes.io/aws-weight: &#39;{{ .Values.spec.ingress.route53_weight }}&#39;
 </span></code></pre></div>
 <p>We rely on two external-dns annotation to configure how the record will be created. the <code>set-identifier</code> annotation will contain the name of the cluster we want to create, which must match the one define in the external-dns <code>txtOwnerId</code> configuration.</p>
 <p>The <code>aws-weight</code> will be used to configure the value of the weighted record, and it will be deployed from Helm values, that will be injected by Terraform in our example, so that our platform team will be able to control autonomously how and when they want to migrate workloads between the EKS clusters.</p>
@@ -1658,58 +1913,58 @@ We have set up a <a href="https://github.com/allamand/eks-example-go">simple go 
 <li>At first, 100% of burnham traffic is set to the <strong>eks-blue</strong> cluster, this is controlled from the <code>eks-blue/main.tf</code> &amp; <code>eks-green/main.tf</code> files with the parameter <code>route53_weight = "100"</code>. The same parameter is set to 0 in cluster eks-green.</li>
 </ol>
 <p align="center">
-  <img src="static/burnham-records.png"/>
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/burnham-records.png"/>
 </p>
 <p>Which correspond to :</p>
 <p align="center">
-  <img src="static/archi-blue.png"/>
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/archi-blue.png"/>
 </p>
 
 <p>All requests to our endpoint should response with <code>eks-blueprint-blue</code> we can test it with the following command:</p>
-<div class="language-shell highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nv">URL</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;https://&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>ing<span class="w"> </span>-n<span class="w"> </span>team-burnham<span class="w"> </span>burnham-ingress<span class="w"> </span>-o<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s2">&quot;.spec.rules[0].host&quot;</span><span class="w"> </span>-r<span class="k">)</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$URL</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CLUSTER_NAME<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s2">&quot;&lt;span&gt;|&lt;/span&gt;&quot;</span><span class="w"> </span><span class="s1">&#39;{print $4}&#39;</span>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nv">URL</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;https://&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>ing<span class="w"> </span>-n<span class="w"> </span>team-burnham<span class="w"> </span>burnham-ingress<span class="w"> </span>-o<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s2">&quot;.spec.rules[0].host&quot;</span><span class="w"> </span>-r<span class="k">)</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>curl<span class="w"> </span>-s<span class="w"> </span><span class="nv">$URL</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CLUSTER_NAME<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="w"> </span><span class="s2">&quot;&lt;span&gt;|&lt;/span&gt;&quot;</span><span class="w"> </span><span class="s1">&#39;{print $4}&#39;</span>
 </span></code></pre></div>
 <p>you should see:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>eks-blueprint-blue
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>eks-blueprint-blue
 </span></code></pre></div>
 <ol>
 <li>Let's change traffic to 50% eks-blue and 50% eks-green by activating also value 100 in <strong>eks-green</strong> locals.tf (<code>route53_weight = "100"</code>) and let's <code>terraform apply</code> to let terraform update the configuration</li>
 </ol>
 <p align="center">
-  <img src="static/burnham-records2.png"/>
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/burnham-records2.png"/>
 </p>
 <p>Which correspond to :</p>
 <p align="center">
-  <img src="static/archi-blue-green.png"/>
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/archi-blue-green.png"/>
 </p>
 
 <p>All records have weight of 100, so we will have 50% requests on each clusters.</p>
 <p>We can check the ratio of requests resolution between both clusters</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>URL=$(echo -n &quot;https://&quot; ; kubectl get ing -n team-burnham burnham-ingress -o json | jq &quot;.spec.rules[0].host&quot; -r)
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>repeat 10 curl -s $URL | grep CLUSTER_NAME | awk -F &quot;&lt;span&gt;|&lt;/span&gt;&quot; &#39;{print $4}&#39; &amp;&amp; sleep 60
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>URL=$(echo -n &quot;https://&quot; ; kubectl get ing -n team-burnham burnham-ingress -o json | jq &quot;.spec.rules[0].host&quot; -r)
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>repeat 10 curl -s $URL | grep CLUSTER_NAME | awk -F &quot;&lt;span&gt;|&lt;/span&gt;&quot; &#39;{print $4}&#39; &amp;&amp; sleep 60
 </span></code></pre></div>
 <p>Result should be similar to:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>eks-blueprint-blue
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>eks-blueprint-blue
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>eks-blueprint-blue
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>eks-blueprint-blue
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>eks-blueprint-green
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>eks-blueprint-green
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>eks-blueprint-blue
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>eks-blueprint-green
-</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>eks-blueprint-blue
-</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>eks-blueprint-green
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>eks-blueprint-blue
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>eks-blueprint-blue
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>eks-blueprint-blue
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>eks-blueprint-blue
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>eks-blueprint-green
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>eks-blueprint-green
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>eks-blueprint-blue
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>eks-blueprint-green
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>eks-blueprint-blue
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>eks-blueprint-green
 </span></code></pre></div>
 <p>The default TTL is for 60 seconds, and you have 50% chance to have blue or green cluster, then you may need to replay the previous command several times to have an idea of the repartition, which theoretically is 50%</p>
 <ol>
 <li>Now that we see that our green cluster is taking requests correctly, we can update the eks-blue cluster configuration to have the weight to 0 and apply again. after a few moment, your route53 records should look like the below screenshot, and all requests should now reach eks-green cluster.</li>
 </ol>
 <p align="center">
-  <img src="static/burnham-records3.png"/>
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/burnham-records3.png"/>
 </p>
 <p>Which correspond to :</p>
 <p align="center">
-  <img src="static/archi-green.png"/>
+  <img src="https://raw.githubusercontent.com/aws-ia/terraform-aws-eks-blueprints/main/patterns/blue-green-upgrade/static/archi-green.png"/>
 </p>
 
 <p>At this step, once all DNS TTL will be up to date, all the traffic will be coming on the eks-green cluster. You can either, delete the eks-blue cluster, or decide to make upgrades on the blue cluster and send back traffic on eks-blue afterward, or simply keep it as a possibility for rollback if needed.</p>
@@ -1722,83 +1977,58 @@ We have set up a <a href="https://github.com/allamand/eks-example-go">simple go 
 <p>In order to properly destroy the Cluster, we need first to remove the ArgoCD workloads, while keeping the ArgoCD addons. We will also need to remove our Karpenter provisioners, and any other objects you created outside of Terraform that needs to be cleaned before destroying the terraform stack.</p>
 <p>Why doing this? When we remove an ingress object, we want the associated Kubernetes add-ons like aws load balancer controller and External DNS to correctly free the associated AWS resources. If we directly ask terraform to destroy everything, it can remove first theses controllers without allowing them the time to remove associated aws resources that will still existing in AWS, preventing us to completely delete our cluster.</p>
 <h4 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>../tear-down.sh
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>../tear-down.sh
 </span></code></pre></div>
-<h4 id="manual">Manual<a class="headerlink" href="#manual" title="Permanent link">&para;</a></h4>
-<ol>
-<li>If also deployed, delete your Karpenter provisioners</li>
-</ol>
-<p>this is safe to delete if no addons are deployed on Karpenter, which is the case here.
-If not we should separate the team-platform deployments which installed Karpenter provisioners in a separate ArgoCD Application to avoid any conflicts.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>provisioners.karpenter.sh<span class="w"> </span>--all
-</span></code></pre></div>
-<ol>
-<li>Delete Workloads App of App</li>
-</ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>application<span class="w"> </span>workloads<span class="w"> </span>-n<span class="w"> </span>argocd
-</span></code></pre></div>
-<ol>
-<li>If also deployed, delete ecsdemo App of App</li>
-</ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>application<span class="w"> </span>ecsdemo<span class="w"> </span>-n<span class="w"> </span>argocd
-</span></code></pre></div>
-<p>Once every workload applications as been freed on AWS side, (this can take some times), we can then destroy our add-ons and terraform resources</p>
-<blockquote>
-<p>Note: it can take time to deregister all load balancers, verify that you don't have any more AWS resources created by EKS prior to start destroying EKS with terraform.</p>
-</blockquote>
-<ol>
-<li>Destroy terraform resources</li>
-</ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks_cluster.module.kubernetes_addons&quot;</span><span class="w"> </span>-auto-approve
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-destroy<span class="w"> </span>-target<span class="o">=</span><span class="s2">&quot;module.eks_cluster.module.eks&quot;</span><span class="w"> </span>-auto-approve
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-destroy<span class="w"> </span>-auto-approve
-</span></code></pre></div>
-<h3 id="delete-the-environment-stack">Delete the environment stack<a class="headerlink" href="#delete-the-environment-stack" title="Permanent link">&para;</a></h3>
-<p>If you have finish playing with this solution, and once you have destroyed the 2 EKS clusters, you can now delete the environment stack.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nb">cd</span><span class="w"> </span>environment
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>terraform<span class="w"> </span>apply<span class="w"> </span>-destroy<span class="w"> </span>-auto-approve
-</span></code></pre></div>
-<p>This will destroy the Route53 hosted zone, the Certificate manager certificate, the VPC with all it's associated resources.</p>
 <h2 id="troubleshoot">Troubleshoot<a class="headerlink" href="#troubleshoot" title="Permanent link">&para;</a></h2>
 <h3 id="external-dns-ownership">External DNS Ownership<a class="headerlink" href="#external-dns-ownership" title="Permanent link">&para;</a></h3>
 <p>The Amazon Route 53 records association are controlled by ExternalDNS controller. You can see the logs from the controller to understand what is happening by executing the following command in each cluster:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>kubectl logs  -n external-dns -l app.kubernetes.io/name=external-dns -f
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>kubectl logs  -n external-dns -l app.kubernetes.io/name=external-dns -f
 </span></code></pre></div>
 <p>In eks-blue cluster, you can see logs like the following, which showcase that the eks-blueprint-blue controller won't make any change in records owned by eks-blueprint-green cluster, the reverse is also true.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>time=&quot;2022-10-10T15:46:54Z&quot; level=debug msg=&quot;Skipping endpoint skiapp.eks-blueprint.sallaman.people.aws.dev 300 IN CNAME eks-blueprint-green k8s-riker-68438cd99f-893407990.eu-west-1.elb.amazonaws.com [{aws/evaluate-target-health true} {alias true} {aws/weight 100}] because owner id does not match, found: \&quot;eks-blueprint-green\&quot;, required: \&quot;eks-blueprint-blue\&quot;&quot;
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>time=&quot;2022-10-10T15:46:54Z&quot; level=debug msg=&quot;Refreshing zones list cache&quot;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>time=&quot;2022-10-10T15:46:54Z&quot; level=debug msg=&quot;Skipping endpoint skiapp.eks-blueprint.sallaman.people.aws.dev 300 IN CNAME eks-blueprint-green k8s-riker-68438cd99f-893407990.eu-west-1.elb.amazonaws.com [{aws/evaluate-target-health true} {alias true} {aws/weight 100}] because owner id does not match, found: \&quot;eks-blueprint-green\&quot;, required: \&quot;eks-blueprint-blue\&quot;&quot;
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>time=&quot;2022-10-10T15:46:54Z&quot; level=debug msg=&quot;Refreshing zones list cache&quot;
 </span></code></pre></div>
 <h3 id="check-route-53-record-status">Check Route 53 Record status<a class="headerlink" href="#check-route-53-record-status" title="Permanent link">&para;</a></h3>
 <p>We can also use the CLI to see our current Route 53 configuration:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ROOT_DOMAIN</span><span class="o">=</span>&lt;your-domain-name&gt;<span class="w"> </span><span class="c1"># the value you put in hosted_zone_name</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="nv">ZONE_ID</span><span class="o">=</span><span class="k">$(</span>aws<span class="w"> </span>route53<span class="w"> </span>list-hosted-zones-by-name<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span>--dns-name<span class="w"> </span><span class="s2">&quot;eks-blueprint.</span><span class="si">${</span><span class="nv">ROOT_DOMAIN</span><span class="si">}</span><span class="s2">.&quot;</span><span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;HostedZones[0].Id&quot;</span><span class="w"> </span>--out<span class="w"> </span>text<span class="k">)</span>
-</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$ZONE_ID</span>
-</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>aws<span class="w"> </span>route53<span class="w"> </span>list-resource-record-sets<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">  </span>--output<span class="w"> </span>json<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">  </span>--hosted-zone-id<span class="w"> </span><span class="nv">$ZONE_ID</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;ResourceRecordSets[?Name == &#39;burnham.eks-blueprint.</span><span class="nv">$ROOT_DOMAIN</span><span class="s2">.&#39;]|[?Type == &#39;A&#39;]&quot;</span>
-</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>
-</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>aws<span class="w"> </span>route53<span class="w"> </span>list-resource-record-sets<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="w">  </span>--output<span class="w"> </span>json<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="w">  </span>--hosted-zone-id<span class="w"> </span><span class="nv">$ZONE_ID</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;ResourceRecordSets[?Name == &#39;burnham.eks-blueprint.</span><span class="nv">$ROOT_DOMAIN</span><span class="s2">.&#39;]|[?Type == &#39;TXT&#39;]&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ROOT_DOMAIN</span><span class="o">=</span>&lt;your-domain-name&gt;<span class="w"> </span><span class="c1"># the value you put in hosted_zone_name</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="nv">ZONE_ID</span><span class="o">=</span><span class="k">$(</span>aws<span class="w"> </span>route53<span class="w"> </span>list-hosted-zones-by-name<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span>--dns-name<span class="w"> </span><span class="s2">&quot;eks-blueprint.</span><span class="si">${</span><span class="nv">ROOT_DOMAIN</span><span class="si">}</span><span class="s2">.&quot;</span><span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;HostedZones[0].Id&quot;</span><span class="w"> </span>--out<span class="w"> </span>text<span class="k">)</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$ZONE_ID</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>aws<span class="w"> </span>route53<span class="w"> </span>list-resource-record-sets<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">  </span>--output<span class="w"> </span>json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">  </span>--hosted-zone-id<span class="w"> </span><span class="nv">$ZONE_ID</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;ResourceRecordSets[?Name == &#39;burnham.eks-blueprint.</span><span class="nv">$ROOT_DOMAIN</span><span class="s2">.&#39;]|[?Type == &#39;A&#39;]&quot;</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>aws<span class="w"> </span>route53<span class="w"> </span>list-resource-record-sets<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="w">  </span>--output<span class="w"> </span>json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="w">  </span>--hosted-zone-id<span class="w"> </span><span class="nv">$ZONE_ID</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="w">  </span>--query<span class="w"> </span><span class="s2">&quot;ResourceRecordSets[?Name == &#39;burnham.eks-blueprint.</span><span class="nv">$ROOT_DOMAIN</span><span class="s2">.&#39;]|[?Type == &#39;TXT&#39;]&quot;</span>
 </span></code></pre></div>
 <h3 id="check-current-resolution-and-ttl-value">Check current resolution and TTL value<a class="headerlink" href="#check-current-resolution-and-ttl-value" title="Permanent link">&para;</a></h3>
 <p>As DNS migration is dependent of DNS caching, normally relying on the TTL, you can use dig to see the current value of the TTL used locally</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>export ROOT_DOMAIN=&lt;your-domain-name&gt; # the value you put for hosted_zone_name
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>dig +noauthority +noquestion +noadditional +nostats +ttlunits +ttlid A burnham.eks-blueprint.$ROOT_DOMAIN
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>export ROOT_DOMAIN=&lt;your-domain-name&gt; # the value you put for hosted_zone_name
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>dig +noauthority +noquestion +noadditional +nostats +ttlunits +ttlid A burnham.eks-blueprint.$ROOT_DOMAIN
 </span></code></pre></div>
 <h3 id="get-argocd-ui-password">Get ArgoCD UI Password<a class="headerlink" href="#get-argocd-ui-password" title="Permanent link">&para;</a></h3>
 <p>You can connect to the ArgoCD UI using the service :</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>argo-cd-argocd-server<span class="w"> </span>-o<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">&#39;.status.loadBalancer.ingress[0].hostname&#39;</span><span class="w"> </span>-r
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>argo-cd-argocd-server<span class="w"> </span>-o<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">&#39;.status.loadBalancer.ingress[0].hostname&#39;</span><span class="w"> </span>-r
 </span></code></pre></div>
 <p>Then login with admin and get the password from AWS Secret Manager:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>aws<span class="w"> </span>secretsmanager<span class="w"> </span>get-secret-value<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="w">  </span>--secret-id<span class="w"> </span>argocd-admin-secret.eks-blueprint<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="w">  </span>--query<span class="w"> </span>SecretString<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="w">  </span>--output<span class="w"> </span>text<span class="w"> </span>--region<span class="w"> </span><span class="nv">$AWS_REGION</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>aws<span class="w"> </span>secretsmanager<span class="w"> </span>get-secret-value<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">  </span>--secret-id<span class="w"> </span>argocd-admin-secret.eks-blueprint<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="w">  </span>--query<span class="w"> </span>SecretString<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">  </span>--output<span class="w"> </span>text<span class="w"> </span>--region<span class="w"> </span><span class="nv">$AWS_REGION</span>
 </span></code></pre></div>
 <!-- END INCLUDE -->
+
+
+
+
+
+
+
+  
+  
+
 
 
 
@@ -1809,6 +2039,7 @@ If not we should separate the team-platform deployments which installed Karpente
             </div>
           
           
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
       </main>
@@ -1820,7 +2051,7 @@ If not we should separate the team-platform deployments which installed Karpente
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; Amazon 2023
+      Copyright &copy; Amazon 2024
     </div>
   
   
@@ -1840,10 +2071,11 @@ If not we should separate the team-platform deployments which installed Karpente
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs.sticky"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      <script src="../../assets/javascripts/bundle.a7c05c9e.min.js"></script>
       
     
   </body>
